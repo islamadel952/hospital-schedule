@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مواعيد أطباء المستشفى</title>
+<title>أرقام أطباء المستشفى</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -183,12 +183,21 @@
   }
   .doctor-name{font-weight:700;font-size:1.02rem;color:var(--text)}
   .doctor-dept{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:2px}
-  .doctor-time{
+  
+  /* زرار الاتصال */
+  .doctor-phone{
     background:linear-gradient(135deg,#e3f2fd,#d0ebff);
     color:var(--primary-dark);
-    padding:8px 14px;border-radius:999px;
-    font-size:.88rem;font-weight:700;white-space:nowrap;
-    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 16px;border-radius:999px;
+    font-size:.9rem;font-weight:700;white-space:nowrap;
+    display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;
+    transition:background .2s, transform .15s;
+    border:1px solid #b8d8fc;
+  }
+  .doctor-phone:hover{
+    background:linear-gradient(135deg,#d0ebff,#b8d8fc);
+    transform:scale(1.03);
   }
 
   /* ===== حالات ===== */
@@ -231,7 +240,7 @@
     .grid-2{grid-template-columns:1fr}
     .logo-slot{width:64px;height:64px}
     .doctor-card{padding:14px}
-    .doctor-time{width:100%;justify-content:center}
+    .doctor-phone{width:100%;justify-content:center;margin-top:8px}
   }
 
   @keyframes fadeUp{
@@ -252,7 +261,7 @@
   <header>
     <div class="header-top">
 
-      <!-- لوجو المستشفى (شمال في RTL) -->
+      <!-- لوجو المستشفى -->
       <div class="logos">
         <div class="logo-slot" id="hospitalLogo">
           <span class="fallback">لوجو<br>المستشفى</span>
@@ -261,11 +270,11 @@
 
       <!-- العنوان -->
       <div class="titles">
-        <h1>جدول مواعيد الأطباء</h1>
-        <p>اختر اليوم والقسم لعرض الأطباء المتاحين</p>
+        <h1>أرقام أطباء المستشفى</h1>
+        <p>اختر اليوم والقسم لعرض أرقام الأطباء المتاحين</p>
       </div>
 
-      <!-- لوجو الأمانة (يمين في RTL) -->
+      <!-- لوجو الأمانة -->
       <div class="logos">
         <div class="logo-slot" id="amanaLogo">
           <span class="fallback">لوجو<br>الأمانة</span>
@@ -283,7 +292,7 @@
     </div>
   </header>
 
-  <!-- ======= الفلاتر (القوائم فاضية - بتتملى تلقائيًا من الشيت) ======= -->
+  <!-- ======= الفلاتر ======= -->
   <div class="filter-card">
     <div class="grid-2">
       <div class="form-group">
@@ -326,14 +335,14 @@
 // رابط الشيت المنشور بصيغة CSV
 const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?output=csv';
 
-// اللوجوهات (Google Drive - رابط أساسي + رابط احتياطي)
+// اللوجوهات
 const HOSPITAL_LOGO_URL    = 'https://drive.google.com/thumbnail?id=1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY&sz=w400';
 const HOSPITAL_LOGO_BACKUP = 'https://lh3.googleusercontent.com/d/1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY=w400';
 
 const AMANA_LOGO_URL       = 'https://drive.google.com/thumbnail?id=1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH&sz=w400';
 const AMANA_LOGO_BACKUP    = 'https://lh3.googleusercontent.com/d/1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH=w400';
 
-// وقت التحديث التلقائي (30 ثانية)
+// وقت التحديث التلقائي
 const REFRESH_INTERVAL_MS = 30000;
 
 // ترتيب أيام الأسبوع
@@ -421,7 +430,7 @@ function sortDays(days){
   });
 }
 
-/* ---------- بناء القوائم ديناميكيًا من البيانات ---------- */
+/* ---------- بناء القوائم ديناميكيًا ---------- */
 function buildDropdowns(){
   const daySel  = document.getElementById('daySelect');
   const deptSel = document.getElementById('deptSelect');
@@ -429,20 +438,16 @@ function buildDropdowns(){
   const currentDay  = daySel.value;
   const currentDept = deptSel.value;
 
-  // اجمع الأيام والأقسام الفريدة من البيانات
   const days  = sortDays([...new Set(doctorsData.map(d => d.day).filter(Boolean))]);
   const depts = [...new Set(doctorsData.map(d => d.dept).filter(Boolean))]
                   .sort((a,b) => a.localeCompare(b,'ar'));
 
-  // املأ الأيام
   daySel.innerHTML = '<option value="">-- اختر اليوم --</option>' +
     days.map(d => `<option value="${d}">${d}</option>`).join('');
 
-  // املأ الأقسام
   deptSel.innerHTML = '<option value="">-- اختر القسم --</option>' +
     depts.map(d => `<option value="${d}">${d}</option>`).join('');
 
-  // استعد الاختيار السابق لو لسه موجود
   if (currentDay && days.includes(currentDay)) daySel.value = currentDay;
   if (currentDept && depts.includes(currentDept)) deptSel.value = currentDept;
 }
@@ -475,25 +480,24 @@ async function loadData(silent = false){
   }
 
   try{
-    // كسر الكاش
     const url = csvUrl + '&_t=' + Date.now();
     const res = await fetch(url, {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text();
     const rows = parseCSV(text);
 
+    // هنا اتغيرت time لـ phone عشان نقرا العمود الرابع
     const newData = rows.slice(1)
       .map(r => ({
         dept: (r[0]||'').trim(),
         day:  (r[1]||'').trim(),
         name: (r[2]||'').trim(),
-        time: (r[3]||'').trim()
+        phone: (r[3]||'').trim() 
       }))
       .filter(d => d.name);
 
     const hash = JSON.stringify(newData);
 
-    // لو مفيش تغيير ومش أول تحميل
     if (silent && hash === lastHash){
       updateLiveStatus('ok','متصل — لا توجد تحديثات جديدة');
       return;
@@ -502,10 +506,8 @@ async function loadData(silent = false){
     lastHash = hash;
     doctorsData = newData;
 
-    // ⭐ بناء القوائم من البيانات الجديدة (بتحل مشكلة القسم الجديد)
     buildDropdowns();
 
-    // رندر النتائج لو فيه اختيار سابق
     const day  = document.getElementById('daySelect').value;
     const dept = document.getElementById('deptSelect').value;
     if (day && dept){
@@ -569,6 +571,11 @@ function render(){
     <div class="doctors-list">`;
 
   filtered.forEach(doc => {
+    // هنا عملنا الرقم يبقى لينك يتصل بيه على الموبايل
+    const phoneHtml = doc.phone 
+      ? `<a href="tel:${doc.phone}" class="doctor-phone">📞 ${doc.phone}</a>`
+      : `<span class="doctor-phone" style="background:#f1f5f9;color:#94a3b8;border-color:#e2e8f0;cursor:default">لا يوجد رقم</span>`;
+
     html += `
       <div class="doctor-card">
         <div class="doc-info">
@@ -578,7 +585,7 @@ function render(){
             <div class="doctor-dept">${dept}</div>
           </div>
         </div>
-        <div class="doctor-time">⏰ ${doc.time}</div>
+        ${phoneHtml}
       </div>`;
   });
 
@@ -606,10 +613,8 @@ document.getElementById('deptSelect').addEventListener('change', render);
 initLogos();
 loadData(false);
 
-// تحديث تلقائي كل 30 ثانية
 refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
 
-// لما ترجع للتاb، حدّث فورًا
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) loadData(true);
 });
