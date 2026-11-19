@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> مستشفى قليوب التخصصي قسم الطوارئ </title>
-  <!-- أكواد الصورة والاسم للواتساب -->
+<title>مستشفى قليوب التخصصي قسم الطوارئ</title>
+
+<!-- أكواد الصورة والاسم للواتساب -->
 <meta property="og:title" content="مستشفى قليوب التخصصي - أطباء قسم الطوارئ" />
 <meta property="og:description" content="اختر اليوم والقسم لمعرفة أرقام ومواعيد الأطباء المتاحين فوراً." />
 <meta property="og:image" content="https://islamadel952.github.io/hospital-schedule/preview.jpg" />
 <meta property="og:url" content="https://islamadel952.github.io/hospital-schedule/" />
 <meta property="og:type" content="website" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -40,6 +42,81 @@
     -webkit-font-smoothing:antialiased;
   }
   .container{width:100%;max-width:960px}
+
+  /* ===== شاشة تسجيل الدخول (الباسورد) ===== */
+  #loginOverlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
+                url('https://islamadel952.github.io/hospital-schedule/preview.jpg') center/cover no-repeat;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 20px;
+  }
+  .login-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeUp .4s ease both;
+  }
+  .login-box h2 {
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+  }
+  .login-box p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .login-box input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color .2s;
+    font-family: inherit;
+  }
+  .login-box input:focus {
+    border-color: var(--primary);
+  }
+  .login-box button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    font-family: inherit;
+  }
+  .login-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13,110,253,.35);
+  }
+  .error-msg {
+    color: #ef4444;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 12px;
+    display: none;
+  }
 
   /* ===== الهيدر واللوجوهات ===== */
   header{
@@ -261,35 +338,38 @@
 </head>
 <body>
 
-<div class="container">
+<!-- ======= شاشة الباسورد (بتغطي الموقع كله) ======= -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>🔒 دخول محمي</h2>
+    <p>هذه الصفحة مخصصة للطاقم الطبي والإداري فقط. يرجى إدخال كلمة المرور.</p>
+    <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور هنا" onkeypress="handleKeyPress(event)">
+    <button onclick="checkPassword()">دخول</button>
+    <div class="error-msg" id="errorMsg">❌ كلمة المرور غير صحيحة، حاول مرة أخرى.</div>
+  </div>
+</div>
 
-  <!-- ======= الهيدر ======= -->
+<!-- ======= الموقع الأساسي ======= -->
+<div class="container" id="mainContent" style="display:none;">
+
   <header>
     <div class="header-top">
-
-      <!-- لوجو المستشفى -->
       <div class="logos">
         <div class="logo-slot" id="hospitalLogo">
           <span class="fallback">لوجو<br>المستشفى</span>
         </div>
       </div>
-
-      <!-- العنوان -->
       <div class="titles">
-        <h1>مستشفى قليوب التخصصي قسم الطوارئ</h1>
-        <p>الأطباء النوبتجيين</p>
+        <h1>أرقام أطباء المستشفى</h1>
+        <p>اختر اليوم والقسم لعرض أرقام الأطباء المتاحين</p>
       </div>
-
-      <!-- لوجو الأمانة -->
       <div class="logos">
         <div class="logo-slot" id="amanaLogo">
           <span class="fallback">لوجو<br>الأمانة</span>
         </div>
       </div>
-
     </div>
 
-    <!-- شريط التحديث اللحظي -->
     <div class="live-bar">
       <span class="live-dot" id="liveDot"></span>
       <span id="liveText">جاري الاتصال بالمصدر...</span>
@@ -298,7 +378,6 @@
     </div>
   </header>
 
-  <!-- ======= الفلاتر ======= -->
   <div class="filter-card">
     <div class="grid-2">
       <div class="form-group">
@@ -322,10 +401,8 @@
     </div>
   </div>
 
-  <!-- ======= النتائج ======= -->
   <div id="resultsArea"></div>
 
-  <!-- ======= الفوتر ======= -->
   <footer>
     <div>© جميع الحقوق محفوظة — مستشفى قليوب</div>
     <div class="designer">تصميم د. إسلام عادل -- اشراف د. محمد راغب</div>
@@ -335,32 +412,72 @@
 
 <script>
 /* ==========================================================
-   ⚙️  الإعدادات
+   🔐 نظام الحماية بكلمة المرور
+   ========================================================== */
+   
+// الباسورد الخاص بك "EMR@3926" تم تشفيره هنا (مش مكتوب صريح)
+const SECRET_HASH = "RU1SQDM5MjY="; 
+
+function checkPassword() {
+  const input = document.getElementById('passwordInput').value;
+  const errorMsg = document.getElementById('errorMsg');
+  
+  // تشفير المدخل ومقارنته بالباسورد المخزن
+  if (btoa(input) === SECRET_HASH) {
+    // الباسورد صح
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    sessionStorage.setItem('hospitalAuth', 'true'); // حفظ الجلسة
+    
+    // تشغيل الموقع (تحميل البيانات)
+    initLogos();
+    loadData(false);
+    refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
+  } else {
+    // الباسورد غلط
+    errorMsg.style.display = 'block';
+    document.getElementById('passwordInput').value = '';
+  }
+}
+
+function handleKeyPress(e) {
+  if (e.key === 'Enter') {
+    checkPassword();
+  }
+}
+
+// لو المستخدم دخل الباسورد قبل كده في نفس الجلسة، مفيش داعي يطلبه تاني
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('hospitalAuth') === 'true') {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    
+    initLogos();
+    loadData(false);
+    refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
+  }
+});
+
+/* ==========================================================
+   ⚙️  إعدادات الموقع الأساسية
    ========================================================== */
 
-// رابط الشيت المنشور بصيغة CSV
 const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?output=csv';
 
-// اللوجوهات
 const HOSPITAL_LOGO_URL    = 'https://drive.google.com/thumbnail?id=1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY&sz=w400';
 const HOSPITAL_LOGO_BACKUP = 'https://lh3.googleusercontent.com/d/1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY=w400';
 
 const AMANA_LOGO_URL       = 'https://drive.google.com/thumbnail?id=1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH&sz=w400';
 const AMANA_LOGO_BACKUP    = 'https://lh3.googleusercontent.com/d/1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH=w400';
 
-// وقت التحديث التلقائي
 const REFRESH_INTERVAL_MS = 30000;
-
-// ترتيب أيام الأسبوع
 const WEEK_ORDER = ['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
-
-/* ========================================================== */
 
 let doctorsData = [];
 let lastHash = null;
 let refreshTimer = null;
 
-/* ---------- تحميل اللوجوهات مع fallback ---------- */
+/* ---------- تحميل اللوجوهات ---------- */
 function setLogoWithFallback(id, primary, backup, label){
   const slot = document.getElementById(id);
   const img = new Image();
@@ -436,7 +553,7 @@ function sortDays(days){
   });
 }
 
-/* ---------- بناء القوائم ديناميكيًا ---------- */
+/* ---------- بناء القوائم ---------- */
 function buildDropdowns(){
   const daySel  = document.getElementById('daySelect');
   const deptSel = document.getElementById('deptSelect');
@@ -492,7 +609,6 @@ async function loadData(silent = false){
     const text = await res.text();
     const rows = parseCSV(text);
 
-    // هنا اتغيرت time لـ phone عشان نقرا العمود الرابع
     const newData = rows.slice(1)
       .map(r => ({
         dept: (r[0]||'').trim(),
@@ -532,7 +648,6 @@ async function loadData(silent = false){
         `<div class="state"><span class="emoji">⚠️</span>
          تعذر تحميل البيانات من الشيت.
          <br><small style="color:#94a3b8">${err.message}</small>
-         <br><small style="color:#94a3b8">تأكد أن الشيت منشور كـ CSV من: ملف → مشاركة → نشر على الويب</small>
          </div>`;
     }
   }
@@ -577,7 +692,6 @@ function render(){
     <div class="doctors-list">`;
 
   filtered.forEach(doc => {
-    // هنا عملنا الرقم يبقى لينك يتصل بيه على الموبايل
     const phoneHtml = doc.phone 
       ? `<a href="tel:${doc.phone}" class="doctor-phone">📞 ${doc.phone}</a>`
       : `<span class="doctor-phone" style="background:#f1f5f9;color:#94a3b8;border-color:#e2e8f0;cursor:default">لا يوجد رقم</span>`;
@@ -615,14 +729,10 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 document.getElementById('daySelect').addEventListener('change', render);
 document.getElementById('deptSelect').addEventListener('change', render);
 
-/* ---------- بدء التشغيل + التحديث اللحظي ---------- */
-initLogos();
-loadData(false);
-
-refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
-
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) loadData(true);
+  if (!document.hidden && sessionStorage.getItem('hospitalAuth') === 'true') {
+    loadData(true);
+  }
 });
 </script>
 
