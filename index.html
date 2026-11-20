@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مستشفى قليوب التخصصي قسم الطوارئ</title>
+<title>مستشفى قليوب التخصصي - دليل الأطباء والطوارئ</title>
 
 <!-- أكواد الصورة والاسم للواتساب -->
-<meta property="og:title" content="مستشفى قليوب التخصصي - أطباء قسم الطوارئ" />
+<meta property="og:title" content="مستشفى قليوب التخصصي - دليل الأطباء" />
 <meta property="og:description" content="اختر اليوم والقسم لمعرفة أرقام ومواعيد الأطباء المتاحين فوراً." />
 <meta property="og:image" content="https://islamadel952.github.io/hospital-schedule/preview.jpg" />
 <meta property="og:url" content="https://islamadel952.github.io/hospital-schedule/" />
@@ -16,279 +16,150 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --primary:#0d6efd;
-    --primary-dark:#0a4fbf;
-    --primary-light:#e7f0ff;
-    --accent:#00b894;
-    --accent-light:#e6f8f3;
-    --bg:#eef3fa;
-    --card:#ffffff;
-    --text:#1e293b;
-    --muted:#64748b;
-    --border:#e2e8f0;
-    --shadow:0 6px 24px rgba(13,110,253,.10);
-    --radius:18px;
+    --primary:#0d6efd; --primary-dark:#0a4fbf; --primary-light:#e7f0ff;
+    --accent:#00b894; --accent-light:#e6f8f3;
+    --bg:#eef3fa; --card:#ffffff; --text:#1e293b; --muted:#64748b;
+    --border:#e2e8f0; --shadow:0 6px 24px rgba(13,110,253,.10); --radius:18px;
   }
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
   html,body{min-height:100%}
   body{
-    background:
-      radial-gradient(1200px 500px at 90% -10%, #d8e7ff 0%, transparent 60%),
-      radial-gradient(1000px 500px at -10% 110%, #d4f5ec 0%, transparent 55%),
-      var(--bg);
-    color:var(--text);
-    padding:24px 16px 40px;
-    display:flex;justify-content:center;
-    -webkit-font-smoothing:antialiased;
+    background: radial-gradient(1200px 500px at 90% -10%, #d8e7ff 0%, transparent 60%),
+                radial-gradient(1000px 500px at -10% 110%, #d4f5ec 0%, transparent 55%),
+                var(--bg);
+    color:var(--text); padding:24px 16px 40px;
+    display:flex; justify-content:center; -webkit-font-smoothing:antialiased;
   }
   .container{width:100%;max-width:960px}
 
-  /* ===== شاشة تسجيل الدخول (الباسورد) ===== */
+  /* ===== شاشة تسجيل الدخول ===== */
   #loginOverlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
                 url('https://islamadel952.github.io/hospital-schedule/preview.jpg') center/cover no-repeat;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    padding: 20px;
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 20px;
   }
   .login-box {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 35px 25px;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95); padding: 35px 25px; border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; width: 100%; max-width: 400px;
     animation: fadeUp .4s ease both;
   }
-  .login-box h2 {
-    color: var(--primary-dark);
-    margin-bottom: 8px;
-    font-size: 1.5rem;
-  }
-  .login-box p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
+  .login-box h2 { color: var(--primary-dark); margin-bottom: 8px; font-size: 1.5rem; }
+  .login-box p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; font-weight: 600; }
   .login-box input {
-    width: 100%;
-    padding: 14px;
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    font-size: 1rem;
-    text-align: center;
-    outline: none;
-    transition: border-color .2s;
-    font-family: inherit;
+    width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px;
+    font-size: 1rem; text-align: center; outline: none; transition: border-color .2s; font-family: inherit;
   }
-  .login-box input:focus {
-    border-color: var(--primary);
-  }
+  .login-box input:focus { border-color: var(--primary); }
   .login-box button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform .2s, box-shadow .2s;
-    font-family: inherit;
+    width: 100%; margin-top: 15px; padding: 14px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+    cursor: pointer; transition: transform .2s, box-shadow .2s; font-family: inherit;
   }
-  .login-box button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(13,110,253,.35);
-  }
-  .error-msg {
-    color: #ef4444;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-top: 12px;
-    display: none;
-  }
+  .login-box button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(13,110,253,.35); }
+  .error-msg { color: #ef4444; font-size: 0.9rem; font-weight: 700; margin-top: 12px; display: none; }
 
-  /* ===== الهيدر واللوجوهات ===== */
+  /* ===== الهيدر ===== */
   header{
     background:linear-gradient(135deg,#ffffff 0%, #f7fbff 100%);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:var(--shadow);
-    margin-bottom:22px;
-    position:relative;
-    overflow:hidden;
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px 24px; box-shadow:var(--shadow); margin-bottom:22px;
+    position:relative; overflow:hidden;
   }
   header::before{
-    content:"";position:absolute;inset:0;
-    background:
-      radial-gradient(400px 120px at 100% 0%, rgba(13,110,253,.10), transparent 70%),
-      radial-gradient(400px 120px at 0% 100%, rgba(0,184,148,.10), transparent 70%);
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(400px 120px at 100% 0%, rgba(13,110,253,.10), transparent 70%),
+                radial-gradient(400px 120px at 0% 100%, rgba(0,184,148,.10), transparent 70%);
     pointer-events:none;
   }
-  .header-top{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:16px;flex-wrap:wrap;position:relative;z-index:1;
-  }
-  .logos{display:flex;align-items:center;gap:14px}
+  .header-top{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; position:relative; z-index:1; }
+  .logos{display:flex; align-items:center; gap:14px}
   .logo-slot{
-    width:82px;height:82px;border-radius:16px;
-    background:#fff;border:1px solid #e2e8f0;
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;flex-shrink:0;
-    transition:transform .25s, box-shadow .25s;
-    padding:6px;
+    width:82px;height:82px;border-radius:16px; background:#fff;border:1px solid #e2e8f0;
+    display:flex;align-items:center;justify-content:center; overflow:hidden;flex-shrink:0;
+    transition:transform .25s, box-shadow .25s; padding:6px;
   }
   .logo-slot:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 18px rgba(13,110,253,.15)}
   .logo-slot img{width:100%;height:100%;object-fit:contain;display:block}
-  .logo-slot .fallback{
-    font-size:10px;color:#7a9bd8;text-align:center;padding:4px;line-height:1.3;font-weight:600;
-  }
+  .logo-slot .fallback{ font-size:10px;color:#7a9bd8;text-align:center;padding:4px;line-height:1.3;font-weight:600; }
   .titles{text-align:center;flex:1;min-width:220px}
-  .titles h1{
-    font-size:clamp(1.25rem, 2.4vw, 1.75rem);
-    color:var(--primary-dark);font-weight:800;margin-bottom:4px;letter-spacing:-.3px;
-  }
+  .titles h1{ font-size:clamp(1.25rem, 2.4vw, 1.75rem); color:var(--primary-dark);font-weight:800;margin-bottom:4px;letter-spacing:-.3px; }
   .titles p{color:var(--muted);font-size:.92rem;font-weight:600}
-
   .live-bar{
     display:flex;align-items:center;justify-content:center;gap:8px;
     margin-top:14px;padding-top:14px;border-top:1px dashed #e2e8f0;
-    font-size:.8rem;color:var(--muted);font-weight:600;
-    position:relative;z-index:1;
-    flex-wrap:wrap;
+    font-size:.8rem;color:var(--muted);font-weight:600; position:relative;z-index:1; flex-wrap:wrap;
   }
-  .live-dot{
-    width:9px;height:9px;border-radius:50%;background:var(--accent);
-    box-shadow:0 0 0 0 rgba(0,184,148,.6);
-    animation:pulse 1.8s infinite;
-    flex-shrink:0;
-  }
+  .live-dot{ width:9px;height:9px;border-radius:50%;background:var(--accent); box-shadow:0 0 0 0 rgba(0,184,148,.6); animation:pulse 1.8s infinite; flex-shrink:0; }
   .live-dot.syncing{background:var(--primary);box-shadow:0 0 0 0 rgba(13,110,253,.6)}
   .live-dot.error{background:#ef4444;animation:none;box-shadow:none}
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(0,184,148,.6)}
-    70%{box-shadow:0 0 0 10px rgba(0,184,148,0)}
-    100%{box-shadow:0 0 0 0 rgba(0,184,148,0)}
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(0,184,148,.6)} 70%{box-shadow:0 0 0 10px rgba(0,184,148,0)} 100%{box-shadow:0 0 0 0 rgba(0,184,148,0)} }
+
+  /* ===== التبويبات (Tabs) ===== */
+  .tabs-container {
+    display: flex; gap: 10px; margin-bottom: 22px; background: #fff;
+    padding: 6px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow);
   }
+  .tab-btn {
+    flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 1rem;
+    font-weight: 700; cursor: pointer; transition: all .3s ease; font-family: inherit;
+    background: transparent; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .tab-btn.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 12px rgba(13,110,253,.3); }
+  .tab-btn:not(.active):hover { background: var(--primary-light); color: var(--primary-dark); }
 
   /* ===== كارت الفلاتر ===== */
-  .filter-card{
-    background:var(--card);
-    padding:22px;
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    border:1px solid var(--border);
-    margin-bottom:22px;
-  }
+  .filter-card{ background:var(--card); padding:22px; border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid var(--border); margin-bottom:22px; }
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .form-group label{
-    display:flex;align-items:center;gap:6px;
-    font-weight:700;color:var(--primary-dark);
-    margin-bottom:8px;font-size:.95rem;
-  }
-  .form-group label .ic{
-    width:22px;height:22px;border-radius:6px;
-    background:var(--primary-light);color:var(--primary);
-    display:inline-flex;align-items:center;justify-content:center;font-size:13px;
-  }
-  select{
-    width:100%;padding:13px 16px;
-    border:2px solid var(--border);border-radius:12px;
-    font-size:1rem;font-weight:600;color:var(--text);
-    background:#fff;outline:none;cursor:pointer;
-    transition:border-color .2s, box-shadow .2s;
-    appearance:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230d6efd' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:left 16px center;padding-left:40px;
-  }
+  .form-group label{ display:flex;align-items:center;gap:6px; font-weight:700;color:var(--primary-dark); margin-bottom:8px;font-size:.95rem; }
+  .form-group label .ic{ width:22px;height:22px;border-radius:6px; background:var(--primary-light);color:var(--primary); display:inline-flex;align-items:center;justify-content:center;font-size:13px; }
+  select{ width:100%;padding:13px 16px; border:2px solid var(--border);border-radius:12px; font-size:1rem;font-weight:600;color:var(--text); background:#fff;outline:none;cursor:pointer; transition:border-color .2s, box-shadow .2s; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%230d6efd' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat:no-repeat;background-position:left 16px center;padding-left:40px; }
   select:hover{border-color:#b8cffb}
   select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(13,110,253,.12)}
-
   .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-  .btn{
-    flex:1;min-width:140px;
-    padding:12px 18px;border:none;border-radius:12px;
-    font-weight:700;font-size:.95rem;cursor:pointer;
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    transition:transform .12s, box-shadow .2s, background .2s;
-  }
+  .btn{ flex:1;min-width:140px; padding:12px 18px;border:none;border-radius:12px; font-weight:700;font-size:.95rem;cursor:pointer; display:inline-flex;align-items:center;justify-content:center;gap:8px; transition:transform .12s, box-shadow .2s, background .2s; }
   .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 6px 16px rgba(13,110,253,.35)}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(13,110,253,.45)}
-  .btn-primary:active{transform:translateY(0)}
   .btn-ghost{background:#f1f5f9;color:#475569;border:1px solid var(--border)}
   .btn-ghost:hover{background:#e2e8f0}
 
   /* ===== النتائج ===== */
-  .results-header{
-    display:flex;align-items:center;justify-content:space-between;
-    margin-bottom:14px;gap:10px;flex-wrap:wrap;
-  }
+  .results-header{ display:flex;align-items:center;justify-content:space-between; margin-bottom:14px;gap:10px;flex-wrap:wrap; }
   .results-header h2{font-size:1.05rem;color:#334155;font-weight:800}
-  .badge{
-    background:var(--primary-light);color:var(--primary-dark);
-    padding:5px 14px;border-radius:999px;font-weight:700;font-size:.85rem;
-    border:1px solid #c9dcff;
-  }
+  .badge{ background:var(--primary-light);color:var(--primary-dark); padding:5px 14px;border-radius:999px;font-weight:700;font-size:.85rem; border:1px solid #c9dcff; }
   .doctors-list{display:grid;grid-template-columns:1fr;gap:12px}
-  .doctor-card{
-    background:var(--card);
-    padding:16px 18px;border-radius:14px;
-    border:1px solid var(--border);
-    border-right:5px solid var(--primary);
-    box-shadow:0 2px 10px rgba(0,0,0,.04);
-    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
-    transition:transform .18s, box-shadow .2s, border-color .2s;
-    animation:fadeUp .35s ease both;
-  }
-  .doctor-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 24px rgba(13,110,253,.14);
-    border-right-color:var(--accent);
-  }
+  
+  /* كروت الأطباء */
+  .doctor-card{ background:var(--card); padding:16px 18px;border-radius:14px; border:1px solid var(--border); border-right:5px solid var(--primary); box-shadow:0 2px 10px rgba(0,0,0,.04); display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap; transition:transform .18s, box-shadow .2s, border-color .2s; animation:fadeUp .35s ease both; }
+  .doctor-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(13,110,253,.14); border-right-color:var(--accent); }
   .doc-info{display:flex;align-items:center;gap:12px}
-  .avatar{
-    width:44px;height:44px;border-radius:50%;flex-shrink:0;
-    background:linear-gradient(135deg,#dbeafe,#bfdbfe);
-    color:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:1rem;
-  }
+  .avatar{ width:44px;height:44px;border-radius:50%;flex-shrink:0; background:linear-gradient(135deg,#dbeafe,#bfdbfe); color:var(--primary-dark); display:flex;align-items:center;justify-content:center; font-weight:800;font-size:1rem; }
   .doctor-name{font-weight:700;font-size:1.02rem;color:var(--text)}
   .doctor-dept{font-size:.8rem;color:var(--muted);font-weight:600;margin-top:2px}
-  
-  /* زرار الاتصال */
-  .doctor-phone{
-    background:linear-gradient(135deg,#e3f2fd,#d0ebff);
-    color:var(--primary-dark);
-    padding:8px 16px;border-radius:999px;
-    font-size:.9rem;font-weight:700;white-space:nowrap;
-    display:inline-flex;align-items:center;gap:8px;
-    text-decoration:none;
-    transition:background .2s, transform .15s;
-    border:1px solid #b8d8fc;
+  .doctor-phone{ background:linear-gradient(135deg,#e3f2fd,#d0ebff); color:var(--primary-dark); padding:8px 16px;border-radius:999px; font-size:.9rem;font-weight:700;white-space:nowrap; display:inline-flex;align-items:center;gap:8px; text-decoration:none; transition:background .2s, transform .15s; border:1px solid #b8d8fc; }
+  .doctor-phone:hover{ background:linear-gradient(135deg,#d0ebff,#b8d8fc); transform:scale(1.03); }
+
+  /* كروت الطوارئ */
+  .emergency-card {
+    background: var(--card); padding: 18px; border-radius: 14px; border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,.04); display: flex; flex-direction: column; gap: 12px;
+    border-right: 5px solid var(--primary); /* لون افتراضي */
+    animation: fadeUp .35s ease both; transition: transform .18s, box-shadow .2s;
   }
-  .doctor-phone:hover{
-    background:linear-gradient(135deg,#d0ebff,#b8d8fc);
-    transform:scale(1.03);
+  .emergency-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(13,110,253,.15); }
+  .em-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .em-name { font-size: 1.1rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .em-diag { font-size: .9rem; color: var(--muted); font-weight: 600; background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0; }
+  .em-care { 
+    padding: 6px 14px; border-radius: 999px; font-size: .85rem; font-weight: 700; 
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; /* لون رمادي محايد مؤقتاً */
   }
+  .em-date { font-size: 0.8rem; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 4px; }
 
   /* ===== حالات ===== */
-  .state{
-    text-align:center;padding:38px 22px;
-    background:var(--card);border-radius:var(--radius);
-    border:1px dashed #cbd5e1;color:var(--muted);font-weight:600;
-  }
+  .state{ text-align:center;padding:38px 22px; background:var(--card);border-radius:var(--radius); border:1px dashed #cbd5e1;color:var(--muted);font-weight:600; }
   .state .emoji{font-size:2.2rem;display:block;margin-bottom:10px}
 
   /* Skeleton */
@@ -298,23 +169,11 @@
   .sk-line{height:12px;border-radius:6px;background:#e2e8f0;margin-bottom:8px}
   .sk-line.short{width:40%}
   .shimmer{position:relative;overflow:hidden}
-  .shimmer::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);
-    animation:shimmer 1.3s infinite;
-  }
+  .shimmer::after{content:"";position:absolute;inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent); animation:shimmer 1.3s infinite;}
 
   /* ===== الفوتر ===== */
-  footer{
-    text-align:center;margin-top:26px;color:#94a3b8;
-    font-size:.8rem;font-weight:600;
-    display:flex;flex-direction:column;gap:4px;align-items:center;
-  }
-  footer .designer{
-    font-size:.78rem;color:#94a3b8;font-weight:600;
-    padding-top:6px;border-top:1px solid #e2e8f0;
-    width:fit-content;padding-inline:18px;margin-top:6px;
-  }
+  footer{ text-align:center;margin-top:26px;color:#94a3b8; font-size:.8rem;font-weight:600; display:flex;flex-direction:column;gap:4px;align-items:center; }
+  footer .designer{ font-size:.78rem;color:#94a3b8;font-weight:600; padding-top:6px;border-top:1px solid #e2e8f0; width:fit-content;padding-inline:18px;margin-top:6px; }
 
   /* ===== Responsive ===== */
   @media (max-width:640px){
@@ -324,21 +183,16 @@
     .logo-slot{width:64px;height:64px}
     .doctor-card{padding:14px}
     .doctor-phone{width:100%;justify-content:center;margin-top:8px}
+    .tab-btn { font-size: 0.85rem; padding: 10px; }
   }
 
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(10px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-  @keyframes shimmer{
-    from{transform:translateX(-100%)}
-    to{transform:translateX(100%)}
-  }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes shimmer{ from{transform:translateX(-100%)} to{transform:translateX(100%)} }
 </style>
 </head>
 <body>
 
-<!-- ======= شاشة الباسورد (بتغطي الموقع كله) ======= -->
+<!-- ======= شاشة الباسورد ======= -->
 <div id="loginOverlay">
   <div class="login-box">
     <h2>🔒 دخول محمي</h2>
@@ -354,22 +208,13 @@
 
   <header>
     <div class="header-top">
-      <div class="logos">
-        <div class="logo-slot" id="hospitalLogo">
-          <span class="fallback">لوجو<br>المستشفى</span>
-        </div>
-      </div>
+      <div class="logos"><div class="logo-slot" id="hospitalLogo"><span class="fallback">لوجو<br>المستشفى</span></div></div>
       <div class="titles">
-        <h1>أرقام أطباء المستشفى</h1>
-        <p>اختر اليوم والقسم لعرض أرقام الأطباء المتاحين</p>
+        <h1>مستشفى قليوب التخصصي</h1>
+        <p id="headerDesc">اختر اليوم والقسم لعرض الأطباء المتاحين</p>
       </div>
-      <div class="logos">
-        <div class="logo-slot" id="amanaLogo">
-          <span class="fallback">لوجو<br>الأمانة</span>
-        </div>
-      </div>
+      <div class="logos"><div class="logo-slot" id="amanaLogo"><span class="fallback">لوجو<br>الأمانة</span></div></div>
     </div>
-
     <div class="live-bar">
       <span class="live-dot" id="liveDot"></span>
       <span id="liveText">جاري الاتصال بالمصدر...</span>
@@ -378,30 +223,42 @@
     </div>
   </header>
 
-  <div class="filter-card">
-    <div class="grid-2">
-      <div class="form-group">
-        <label for="daySelect"><span class="ic">📅</span> اليوم</label>
-        <select id="daySelect">
-          <option value="">-- اختر اليوم --</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="deptSelect"><span class="ic">🏥</span> القسم</label>
-        <select id="deptSelect">
-          <option value="">-- اختر القسم --</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-primary" id="searchBtn">🔍 عرض الأطباء</button>
-      <button class="btn btn-ghost" id="refreshBtn">🔄 تحديث الآن</button>
-      <button class="btn btn-ghost" id="resetBtn">↺ إعادة تعيين</button>
-    </div>
+  <!-- التبويبات -->
+  <div class="tabs-container">
+    <button class="tab-btn active" id="tabDoctors" onclick="switchTab('doctors')">👨‍⚕️ دليل الأطباء</button>
+    <button class="tab-btn" id="tabEmergency" onclick="switchTab('emergency')">🚑 تنسيق الطوارئ</button>
   </div>
 
-  <div id="resultsArea"></div>
+  <!-- قسم الأطباء -->
+  <div id="doctorsSection">
+    <div class="filter-card">
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="daySelect"><span class="ic">📅</span> اليوم</label>
+          <select id="daySelect"><option value="">-- اختر اليوم --</option></select>
+        </div>
+        <div class="form-group">
+          <label for="deptSelect"><span class="ic">🏥</span> القسم</label>
+          <select id="deptSelect"><option value="">-- اختر القسم --</option></select>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" id="searchBtn">🔍 عرض الأطباء</button>
+        <button class="btn btn-ghost" id="refreshBtn">🔄 تحديث الآن</button>
+        <button class="btn btn-ghost" id="resetBtn">↺ إعادة تعيين</button>
+      </div>
+    </div>
+    <div id="resultsArea"></div>
+  </div>
+
+  <!-- قسم الطوارئ -->
+  <div id="emergencySection" style="display:none;">
+    <div class="filter-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <h2 style="font-size:1.1rem; color:var(--primary-dark);">🚑 حالات التنسيق الحالية</h2>
+      <button class="btn btn-ghost" style="flex:0; min-width:120px; padding:8px 16px;" onclick="loadEmergencyData()">🔄 تحديث الطوارئ</button>
+    </div>
+    <div id="emergencyArea"></div>
+  </div>
 
   <footer>
     <div>© جميع الحقوق محفوظة — مستشفى قليوب</div>
@@ -414,128 +271,82 @@
 /* ==========================================================
    🔐 نظام الحماية بكلمة المرور
    ========================================================== */
-   
-// الباسورد الخاص بك "EMR@3926" تم تشفيره هنا (مش مكتوب صريح)
-const SECRET_HASH = "RU1SQDM5MjY="; 
+const SECRET_HASH = "RU1SQDM5MjY="; // باسورد EMR@3926
 
 function checkPassword() {
   const input = document.getElementById('passwordInput').value;
-  const errorMsg = document.getElementById('errorMsg');
-  
-  // تشفير المدخل ومقارنته بالباسورد المخزن
   if (btoa(input) === SECRET_HASH) {
-    // الباسورد صح
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
-    sessionStorage.setItem('hospitalAuth', 'true'); // حفظ الجلسة
-    
-    // تشغيل الموقع (تحميل البيانات)
-    initLogos();
-    loadData(false);
-    refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
+    sessionStorage.setItem('hospitalAuth', 'true');
+    startApp();
   } else {
-    // الباسورد غلط
-    errorMsg.style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'block';
     document.getElementById('passwordInput').value = '';
   }
 }
+function handleKeyPress(e) { if (e.key === 'Enter') checkPassword(); }
 
-function handleKeyPress(e) {
-  if (e.key === 'Enter') {
-    checkPassword();
-  }
-}
-
-// لو المستخدم دخل الباسورد قبل كده في نفس الجلسة، مفيش داعي يطلبه تاني
 window.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('hospitalAuth') === 'true') {
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
-    
-    initLogos();
-    loadData(false);
-    refreshTimer = setInterval(() => loadData(true), REFRESH_INTERVAL_MS);
+    startApp();
   }
 });
 
 /* ==========================================================
-   ⚙️  إعدادات الموقع الأساسية
+   ⚙️  الإعدادات الأساسية
    ========================================================== */
+// رابط شيت الأطباء
+const doctorsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?output=csv';
 
-const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?output=csv';
+// رابط شيت الطوارئ (الرابط الجديد المخصص لورقة التنسيق)
+const emergencyCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?gid=235159621&single=true&output=csv';
 
 const HOSPITAL_LOGO_URL    = 'https://drive.google.com/thumbnail?id=1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY&sz=w400';
 const HOSPITAL_LOGO_BACKUP = 'https://lh3.googleusercontent.com/d/1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY=w400';
-
 const AMANA_LOGO_URL       = 'https://drive.google.com/thumbnail?id=1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH&sz=w400';
 const AMANA_LOGO_BACKUP    = 'https://lh3.googleusercontent.com/d/1eLfAH0v1pzlRzsHdmlgiI2fobWUeQ4fH=w400';
 
 const REFRESH_INTERVAL_MS = 30000;
 const WEEK_ORDER = ['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'];
 
-let doctorsData = [];
-let lastHash = null;
+let doctorsData = [], emergencyData = [];
+let lastHashDoctors = null, lastHashEmergency = null;
 let refreshTimer = null;
+let currentTab = 'doctors';
 
 /* ---------- تحميل اللوجوهات ---------- */
 function setLogoWithFallback(id, primary, backup, label){
   const slot = document.getElementById(id);
   const img = new Image();
-  img.onload = () => {
-    slot.innerHTML = '';
-    img.style.cssText = 'width:100%;height:100%;object-fit:contain';
-    slot.appendChild(img);
-  };
-  img.onerror = () => {
-    if (backup && img.src !== backup){
-      img.src = backup;
-    } else {
-      slot.innerHTML = `<span class="fallback">${label}<br>(تعذر التحميل)</span>`;
-    }
-  };
-  img.alt = label;
-  img.src = primary;
+  img.onload = () => { slot.innerHTML = ''; img.style.cssText = 'width:100%;height:100%;object-fit:contain'; slot.appendChild(img); };
+  img.onerror = () => { if (backup && img.src !== backup) img.src = backup; else slot.innerHTML = `<span class="fallback">${label}<br>(تعذر التحميل)</span>`; };
+  img.alt = label; img.src = primary;
 }
-
 function initLogos(){
   setLogoWithFallback('hospitalLogo', HOSPITAL_LOGO_URL, HOSPITAL_LOGO_BACKUP, 'لوجو المستشفى');
   setLogoWithFallback('amanaLogo', AMANA_LOGO_URL, AMANA_LOGO_BACKUP, 'لوجو الأمانة');
 }
 
 /* ---------- Skeleton ---------- */
-function showSkeleton(n=3){
-  const area = document.getElementById('resultsArea');
+function showSkeleton(areaId, n=3){
+  const area = document.getElementById(areaId);
   let html = '<div class="doctors-list">';
-  for(let i=0;i<n;i++){
-    html += `<div class="skeleton">
-      <div class="sk-avatar shimmer"></div>
-      <div class="sk-lines">
-        <div class="sk-line shimmer"></div>
-        <div class="sk-line short shimmer"></div>
-      </div>
-    </div>`;
-  }
-  html += '</div>';
-  area.innerHTML = html;
+  for(let i=0;i<n;i++){ html += `<div class="skeleton"><div class="sk-avatar shimmer"></div><div class="sk-lines"><div class="sk-line shimmer"></div><div class="sk-line short shimmer"></div></div></div>`; }
+  html += '</div>'; area.innerHTML = html;
 }
 
 /* ---------- CSV Parser ---------- */
 function parseCSV(text){
-  const rows = [];
-  let cur = [], cell = '', inQuotes = false;
+  const rows = []; let cur = [], cell = '', inQuotes = false;
   for(let i=0;i<text.length;i++){
     const ch = text[i];
-    if(ch === '"'){
-      if(inQuotes && text[i+1] === '"'){ cell += '"'; i++; }
-      else inQuotes = !inQuotes;
-    } else if(ch === ',' && !inQuotes){
-      cur.push(cell); cell = '';
-    } else if((ch === '\n' || ch === '\r') && !inQuotes){
-      if(cell !== '' || cur.length){ cur.push(cell); rows.push(cur); cur=[]; cell=''; }
-      if(ch === '\r' && text[i+1] === '\n') i++;
-    } else {
-      cell += ch;
-    }
+    if(ch === '"'){ if(inQuotes && text[i+1] === '"'){ cell += '"'; i++; } else inQuotes = !inQuotes; }
+    else if(ch === ',' && !inQuotes){ cur.push(cell); cell = ''; }
+    else if((ch === '\n' || ch === '\r') && !inQuotes){ if(cell !== '' || cur.length){ cur.push(cell); rows.push(cur); cur=[]; cell=''; } if(ch === '\r' && text[i+1] === '\n') i++; }
+    else { cell += ch; }
   }
   if(cell !== '' || cur.length){ cur.push(cell); rows.push(cur); }
   return rows;
@@ -543,195 +354,145 @@ function parseCSV(text){
 
 /* ---------- ترتيب الأيام ---------- */
 function sortDays(days){
-  return [...days].sort((a,b) => {
-    const ia = WEEK_ORDER.indexOf(a);
-    const ib = WEEK_ORDER.indexOf(b);
-    if (ia === -1 && ib === -1) return a.localeCompare(b,'ar');
-    if (ia === -1) return 1;
-    if (ib === -1) return -1;
-    return ia - ib;
-  });
+  return [...days].sort((a,b) => { const ia = WEEK_ORDER.indexOf(a), ib = WEEK_ORDER.indexOf(b); if (ia === -1 && ib === -1) return a.localeCompare(b,'ar'); if (ia === -1) return 1; if (ib === -1) return -1; return ia - ib; });
 }
 
 /* ---------- بناء القوائم ---------- */
 function buildDropdowns(){
-  const daySel  = document.getElementById('daySelect');
-  const deptSel = document.getElementById('deptSelect');
-
-  const currentDay  = daySel.value;
-  const currentDept = deptSel.value;
-
-  const days  = sortDays([...new Set(doctorsData.map(d => d.day).filter(Boolean))]);
-  const depts = [...new Set(doctorsData.map(d => d.dept).filter(Boolean))]
-                  .sort((a,b) => a.localeCompare(b,'ar'));
-
-  daySel.innerHTML = '<option value="">-- اختر اليوم --</option>' +
-    days.map(d => `<option value="${d}">${d}</option>`).join('');
-
-  deptSel.innerHTML = '<option value="">-- اختر القسم --</option>' +
-    depts.map(d => `<option value="${d}">${d}</option>`).join('');
-
-  if (currentDay && days.includes(currentDay)) daySel.value = currentDay;
-  if (currentDept && depts.includes(currentDept)) deptSel.value = currentDept;
+  const daySel = document.getElementById('daySelect'), deptSel = document.getElementById('deptSelect');
+  const days = sortDays([...new Set(doctorsData.map(d => d.day).filter(Boolean))]);
+  const depts = [...new Set(doctorsData.map(d => d.dept).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ar'));
+  daySel.innerHTML = '<option value="">-- اختر اليوم --</option>' + days.map(d => `<option value="${d}">${d}</option>`).join('');
+  deptSel.innerHTML = '<option value="">-- اختر القسم --</option>' + depts.map(d => `<option value="${d}">${d}</option>`).join('');
 }
 
 /* ---------- شريط الحالة ---------- */
 function updateLiveStatus(status, text){
-  const dot = document.getElementById('liveDot');
-  const txt = document.getElementById('liveText');
-  dot.classList.remove('syncing','error');
-  if (status === 'syncing') dot.classList.add('syncing');
-  if (status === 'error')   dot.classList.add('error');
+  const dot = document.getElementById('liveDot'), txt = document.getElementById('liveText');
+  dot.classList.remove('syncing','error'); if (status === 'syncing') dot.classList.add('syncing'); if (status === 'error') dot.classList.add('error');
   txt.textContent = text;
 }
-
 function updateTimestamp(){
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2,'0');
-  const mm = String(now.getMinutes()).padStart(2,'0');
-  const ss = String(now.getSeconds()).padStart(2,'0');
+  const now = new Date(); const hh = String(now.getHours()).padStart(2,'0'), mm = String(now.getMinutes()).padStart(2,'0'), ss = String(now.getSeconds()).padStart(2,'0');
   document.getElementById('lastUpdate').textContent = `آخر تحديث: ${hh}:${mm}:${ss}`;
 }
 
-/* ---------- تحميل البيانات ---------- */
-async function loadData(silent = false){
-  if (!silent){
-    showSkeleton(4);
-    updateLiveStatus('syncing','جاري التحديث...');
-  } else {
-    updateLiveStatus('syncing','جاري التحقق من التحديثات...');
-  }
-
+/* ---------- تحميل بيانات الأطباء ---------- */
+async function loadDoctorsData(silent = false){
+  if (!silent) showSkeleton('resultsArea', 4);
   try{
-    const url = csvUrl + '&_t=' + Date.now();
-    const res = await fetch(url, {cache:'no-store'});
+    const res = await fetch(doctorsCsvUrl + '&_t=' + Date.now(), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    const rows = parseCSV(text);
-
-    const newData = rows.slice(1)
-      .map(r => ({
-        dept: (r[0]||'').trim(),
-        day:  (r[1]||'').trim(),
-        name: (r[2]||'').trim(),
-        phone: (r[3]||'').trim() 
-      }))
-      .filter(d => d.name);
-
+    const text = await res.text(); const rows = parseCSV(text);
+    const newData = rows.slice(1).map(r => ({ dept: (r[0]||'').trim(), day: (r[1]||'').trim(), name: (r[2]||'').trim(), phone: (r[3]||'').trim() })).filter(d => d.name);
     const hash = JSON.stringify(newData);
-
-    if (silent && hash === lastHash){
-      updateLiveStatus('ok','متصل — لا توجد تحديثات جديدة');
-      return;
-    }
-
-    lastHash = hash;
-    doctorsData = newData;
-
+    if (silent && hash === lastHashDoctors) return;
+    lastHashDoctors = hash; doctorsData = newData;
     buildDropdowns();
+    const day = document.getElementById('daySelect').value, dept = document.getElementById('deptSelect').value;
+    if (day && dept) renderDoctors(); else if (!silent && currentTab === 'doctors') document.getElementById('resultsArea').innerHTML = `<div class="state"><span class="emoji">👨‍⚕️</span>اختر اليوم والقسم ثم اضغط "عرض الأطباء"</div>`;
+  }catch(err){ if (!silent) document.getElementById('resultsArea').innerHTML = `<div class="state"><span class="emoji">⚠️</span>تعذر تحميل بيانات الأطباء.</div>`; }
+}
 
-    const day  = document.getElementById('daySelect').value;
-    const dept = document.getElementById('deptSelect').value;
-    if (day && dept){
-      render();
-    } else if (!silent){
-      showInitial();
-    }
-
-    updateLiveStatus('ok', `متصل — ${doctorsData.length} سجل`);
-    updateTimestamp();
-
-  }catch(err){
-    updateLiveStatus('error','تعذر الاتصال');
-    if (!silent){
-      document.getElementById('resultsArea').innerHTML =
-        `<div class="state"><span class="emoji">⚠️</span>
-         تعذر تحميل البيانات من الشيت.
-         <br><small style="color:#94a3b8">${err.message}</small>
-         </div>`;
-    }
+/* ---------- تحميل بيانات الطوارئ ---------- */
+async function loadEmergencyData(silent = false){
+  if (!silent || document.getElementById('emergencyArea').innerHTML === '') showSkeleton('emergencyArea', 3);
+  try{
+    const res = await fetch(emergencyCsvUrl + '&_t=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text(); const rows = parseCSV(text);
+    // أعمدة الطوارئ: A=اسم المريض, B=التشخيص, C=تاريخ الدخول, D=نوع الرعاية
+    const newData = rows.slice(1).map(r => ({ 
+      name: (r[0]||'').trim(), 
+      diag: (r[1]||'').trim(), 
+      date: (r[2]||'').trim(), 
+      care: (r[3]||'').trim() 
+    })).filter(d => d.name);
+    const hash = JSON.stringify(newData);
+    if (silent && hash === lastHashEmergency) return;
+    lastHashEmergency = hash; emergencyData = newData;
+    renderEmergency();
+  }catch(err){ 
+    if (!silent) document.getElementById('emergencyArea').innerHTML = `<div class="state"><span class="emoji">⚠️</span>تعذر تحميل بيانات الطوارئ. تأكد من نشر الشيت بشكل صحيح.</div>`; 
   }
 }
 
-function showInitial(){
-  document.getElementById('resultsArea').innerHTML =
-    `<div class="state"><span class="emoji">👨‍⚕️</span>
-      اختر اليوم والقسم ثم اضغط "عرض الأطباء"</div>`;
-}
-
-/* ---------- فلترة وعرض ---------- */
-function render(){
-  const day  = document.getElementById('daySelect').value;
-  const dept = document.getElementById('deptSelect').value;
-  const area = document.getElementById('resultsArea');
-
-  if(!day || !dept){
-    area.innerHTML = `<div class="state"><span class="emoji">🤔</span>
-      يرجى تحديد اليوم والقسم أولاً.</div>`;
-    return;
-  }
-
+/* ---------- عرض الأطباء ---------- */
+function renderDoctors(){
+  const day = document.getElementById('daySelect').value, dept = document.getElementById('deptSelect').value, area = document.getElementById('resultsArea');
+  if(!day || !dept){ area.innerHTML = `<div class="state"><span class="emoji">🤔</span>يرجى تحديد اليوم والقسم أولاً.</div>`; return; }
   const filtered = doctorsData.filter(d => d.day === day && d.dept === dept);
+  if(filtered.length === 0){ area.innerHTML = `<div class="state"><span class="emoji">🚫</span>لا يوجد أطباء في قسم <b>${dept}</b> يوم <b>${day}</b>.</div>`; return; }
+  const initials = name => { const parts = name.replace(/^د\.?\s*/, '').trim().split(/\s+/); return (parts[0]?.[0]||'') + (parts[1]?.[0]||''); };
+  let html = `<div class="results-header"><h2>الأطباء المتاحون — ${dept} / ${day}</h2><span class="badge">${filtered.length} طبيب</span></div><div class="doctors-list">`;
+  filtered.forEach(doc => {
+    const phoneHtml = doc.phone ? `<a href="tel:${doc.phone}" class="doctor-phone">📞 ${doc.phone}</a>` : `<span class="doctor-phone" style="background:#f1f5f9;color:#94a3b8;border-color:#e2e8f0">لا يوجد رقم</span>`;
+    html += `<div class="doctor-card"><div class="doc-info"><div class="avatar">${initials(doc.name)}</div><div><div class="doctor-name">${doc.name}</div><div class="doctor-dept">${dept}</div></div></div>${phoneHtml}</div>`;
+  });
+  html += '</div>'; area.innerHTML = html;
+}
 
-  if(filtered.length === 0){
-    area.innerHTML = `<div class="state"><span class="emoji">🚫</span>
-      لا يوجد أطباء متاحون في قسم <b>${dept}</b> يوم <b>${day}</b>.</div>`;
+/* ---------- عرض الطوارئ ---------- */
+function renderEmergency(){
+  const area = document.getElementById('emergencyArea');
+  if(emergencyData.length === 0){
+    area.innerHTML = `<div class="state"><span class="emoji">✅</span>لا توجد حالات تنسيق حالياً.</div>`;
     return;
   }
-
-  const initials = name => {
-    const parts = name.replace(/^د\.?\s*/, '').trim().split(/\s+/);
-    return (parts[0]?.[0]||'') + (parts[1]?.[0]||'');
-  };
-
-  let html = `
-    <div class="results-header">
-      <h2>الأطباء المتاحون — ${dept} / ${day}</h2>
-      <span class="badge">${filtered.length} طبيب</span>
-    </div>
-    <div class="doctors-list">`;
-
-  filtered.forEach(doc => {
-    const phoneHtml = doc.phone 
-      ? `<a href="tel:${doc.phone}" class="doctor-phone">📞 ${doc.phone}</a>`
-      : `<span class="doctor-phone" style="background:#f1f5f9;color:#94a3b8;border-color:#e2e8f0;cursor:default">لا يوجد رقم</span>`;
-
+  let html = `<div class="results-header"><h2>قائمة حالات الطوارئ</h2><span class="badge">${emergencyData.length} حالة</span></div><div class="doctors-list">`;
+  emergencyData.forEach(caseItem => {
+    // عرض نوع الرعاية كبادج رمادي (بدون ألوان) لحين تحديد الأنواع النهائية
     html += `
-      <div class="doctor-card">
-        <div class="doc-info">
-          <div class="avatar">${initials(doc.name)}</div>
-          <div>
-            <div class="doctor-name">${doc.name}</div>
-            <div class="doctor-dept">${dept}</div>
-          </div>
+      <div class="emergency-card">
+        <div class="em-header">
+          <div class="em-name">👤 ${caseItem.name}</div>
+          <div class="em-care">🏥 ${caseItem.care || 'غير محدد'}</div>
         </div>
-        ${phoneHtml}
+        <div class="em-diag">📋 <b>التشخيص:</b> ${caseItem.diag || 'لا يوجد'}</div>
+        <div class="em-date">📅 <b>تاريخ الدخول:</b> ${caseItem.date || 'غير مسجل'}</div>
       </div>`;
   });
+  html += '</div>'; area.innerHTML = html;
+}
 
-  html += '</div>';
-  area.innerHTML = html;
+/* ---------- التبويبات (Tabs) ---------- */
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tabDoctors').classList.toggle('active', tab === 'doctors');
+  document.getElementById('tabEmergency').classList.toggle('active', tab === 'emergency');
+  
+  if (tab === 'doctors') {
+    document.getElementById('doctorsSection').style.display = 'block';
+    document.getElementById('emergencySection').style.display = 'none';
+    document.getElementById('headerDesc').textContent = "اختر اليوم والقسم لعرض الأطباء المتاحين";
+  } else {
+    document.getElementById('doctorsSection').style.display = 'none';
+    document.getElementById('emergencySection').style.display = 'block';
+    document.getElementById('headerDesc').textContent = "متابعة حالات التنسيق في قسم الطوارئ";
+    loadEmergencyData(false);
+  }
+}
+
+/* ---------- بدء التشغيل ---------- */
+function startApp() {
+  initLogos();
+  loadDoctorsData(false);
+  refreshTimer = setInterval(() => {
+    if (currentTab === 'doctors') loadDoctorsData(true);
+    else loadEmergencyData(true);
+  }, REFRESH_INTERVAL_MS);
 }
 
 /* ---------- أحداث ---------- */
-document.getElementById('searchBtn').addEventListener('click', render);
-
-document.getElementById('refreshBtn').addEventListener('click', () => {
-  loadData(false);
-});
-
-document.getElementById('resetBtn').addEventListener('click', () => {
-  document.getElementById('daySelect').value = '';
-  document.getElementById('deptSelect').value = '';
-  showInitial();
-});
-
-document.getElementById('daySelect').addEventListener('change', render);
-document.getElementById('deptSelect').addEventListener('change', render);
+document.getElementById('searchBtn').addEventListener('click', renderDoctors);
+document.getElementById('refreshBtn').addEventListener('click', () => { if (currentTab === 'doctors') loadDoctorsData(false); });
+document.getElementById('resetBtn').addEventListener('click', () => { document.getElementById('daySelect').value = ''; document.getElementById('deptSelect').value = ''; document.getElementById('resultsArea').innerHTML = `<div class="state"><span class="emoji">👨‍⚕️</span>اختر اليوم والقسم ثم اضغط "عرض الأطباء"</div>`; });
+document.getElementById('daySelect').addEventListener('change', renderDoctors);
+document.getElementById('deptSelect').addEventListener('change', renderDoctors);
 
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && sessionStorage.getItem('hospitalAuth') === 'true') {
-    loadData(true);
+    if (currentTab === 'doctors') loadDoctorsData(true); else loadEmergencyData(true);
   }
 });
 </script>
