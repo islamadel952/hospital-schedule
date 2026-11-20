@@ -383,7 +383,7 @@ function buildEmergencyDropdown(){
   const careTypes = [...new Set(emergencyData.map(d => d.care).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ar'));
   
   // تحديث القائمة
-  filter.innerHTML = '<option value="الكل">الكل (جميع أنواع الرعاية)</option>' +
+  filter.innerHTML = '<option value="الكل">الكل </option>' +
     careTypes.map(c => `<option value="${c}">${c}</option>`).join('');
   
   // الحفاظ على الاختيار السابق لو لسه موجود
