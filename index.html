@@ -253,10 +253,18 @@
 
   <!-- قسم الطوارئ -->
   <div id="emergencySection" style="display:none;">
+    
+    <!-- كارت الفلتر المعدل -->
     <div class="filter-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
       <h2 style="font-size:1.1rem; color:var(--primary-dark);">🚑 حالات التنسيق الحالية</h2>
-      <button class="btn btn-ghost" style="flex:0; min-width:120px; padding:8px 16px;" onclick="loadEmergencyData()">🔄 تحديث الطوارئ</button>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; width:100%; max-width:400px;">
+        <select id="careFilter" style="flex:1; min-width:150px; padding:10px 14px; border-radius:10px; font-size:0.9rem;" onchange="renderEmergency()">
+          <option value="الكل">الكل (جميع أنواع الرعاية)</option>
+        </select>
+        <button class="btn btn-ghost" style="flex:0; min-width:100px; padding:10px 14px; font-size:0.9rem;" onclick="loadEmergencyData()">🔄 تحديث</button>
+      </div>
     </div>
+    
     <div id="emergencyArea"></div>
   </div>
 
@@ -301,7 +309,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // رابط شيت الأطباء
 const doctorsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?output=csv';
 
-// رابط شيت الطوارئ (الرابط الجديد المخصص لورقة التنسيق)
+// رابط شيت الطوارئ
 const emergencyCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRiS7fipLPH0p_6O0XbODZ_AK2GoC6k87QnroEsQXrAo32lpbC6frcwlHjt-LpYmA/pub?gid=235159621&single=true&output=csv';
 
 const HOSPITAL_LOGO_URL    = 'https://drive.google.com/thumbnail?id=1QDjgqKSA3CL6_WdVmpAHr79I5bM2qocY&sz=w400';
@@ -357,13 +365,33 @@ function sortDays(days){
   return [...days].sort((a,b) => { const ia = WEEK_ORDER.indexOf(a), ib = WEEK_ORDER.indexOf(b); if (ia === -1 && ib === -1) return a.localeCompare(b,'ar'); if (ia === -1) return 1; if (ib === -1) return -1; return ia - ib; });
 }
 
-/* ---------- بناء القوائم ---------- */
+/* ---------- بناء القوائم (الأطباء) ---------- */
 function buildDropdowns(){
   const daySel = document.getElementById('daySelect'), deptSel = document.getElementById('deptSelect');
   const days = sortDays([...new Set(doctorsData.map(d => d.day).filter(Boolean))]);
   const depts = [...new Set(doctorsData.map(d => d.dept).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ar'));
   daySel.innerHTML = '<option value="">-- اختر اليوم --</option>' + days.map(d => `<option value="${d}">${d}</option>`).join('');
   deptSel.innerHTML = '<option value="">-- اختر القسم --</option>' + depts.map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
+/* ---------- بناء القوائم (الطوارئ) ---------- */
+function buildEmergencyDropdown(){
+  const filter = document.getElementById('careFilter');
+  const currentVal = filter.value;
+  
+  // استخراج أنواع الرعاية الفريدة من البيانات
+  const careTypes = [...new Set(emergencyData.map(d => d.care).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ar'));
+  
+  // تحديث القائمة
+  filter.innerHTML = '<option value="الكل">الكل (جميع أنواع الرعاية)</option>' +
+    careTypes.map(c => `<option value="${c}">${c}</option>`).join('');
+  
+  // الحفاظ على الاختيار السابق لو لسه موجود
+  if (currentVal === 'الكل' || careTypes.includes(currentVal)) {
+    filter.value = currentVal;
+  } else {
+    filter.value = 'الكل';
+  }
 }
 
 /* ---------- شريط الحالة ---------- */
@@ -401,6 +429,7 @@ async function loadEmergencyData(silent = false){
     const res = await fetch(emergencyCsvUrl + '&_t=' + Date.now(), {cache:'no-store'});
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text(); const rows = parseCSV(text);
+    
     // أعمدة الطوارئ: A=اسم المريض, B=التشخيص, C=تاريخ الدخول, D=نوع الرعاية
     const newData = rows.slice(1).map(r => ({ 
       name: (r[0]||'').trim(), 
@@ -408,9 +437,13 @@ async function loadEmergencyData(silent = false){
       date: (r[2]||'').trim(), 
       care: (r[3]||'').trim() 
     })).filter(d => d.name);
+    
     const hash = JSON.stringify(newData);
     if (silent && hash === lastHashEmergency) return;
     lastHashEmergency = hash; emergencyData = newData;
+    
+    // بناء القائمة المنسدلة وعرض البيانات
+    buildEmergencyDropdown();
     renderEmergency();
   }catch(err){ 
     if (!silent) document.getElementById('emergencyArea').innerHTML = `<div class="state"><span class="emoji">⚠️</span>تعذر تحميل بيانات الطوارئ. تأكد من نشر الشيت بشكل صحيح.</div>`; 
@@ -432,16 +465,25 @@ function renderDoctors(){
   html += '</div>'; area.innerHTML = html;
 }
 
-/* ---------- عرض الطوارئ ---------- */
+/* ---------- عرض الطوارئ (بفلتر) ---------- */
 function renderEmergency(){
   const area = document.getElementById('emergencyArea');
-  if(emergencyData.length === 0){
-    area.innerHTML = `<div class="state"><span class="emoji">✅</span>لا توجد حالات تنسيق حالياً.</div>`;
+  const filterVal = document.getElementById('careFilter').value;
+  
+  // فلترة البيانات حسب نوع الرعاية المختار
+  let filteredData = emergencyData;
+  if (filterVal !== 'الكل') {
+    filteredData = emergencyData.filter(c => c.care === filterVal);
+  }
+
+  if(filteredData.length === 0){
+    area.innerHTML = `<div class="state"><span class="emoji">✅</span>لا توجد حالات تنسيق مطابقة للفلتر المختار.</div>`;
     return;
   }
-  let html = `<div class="results-header"><h2>قائمة حالات الطوارئ</h2><span class="badge">${emergencyData.length} حالة</span></div><div class="doctors-list">`;
-  emergencyData.forEach(caseItem => {
-    // عرض نوع الرعاية كبادج رمادي (بدون ألوان) لحين تحديد الأنواع النهائية
+  
+  let html = `<div class="results-header"><h2>قائمة حالات الطوارئ</h2><span class="badge">${filteredData.length} حالة</span></div><div class="doctors-list">`;
+  
+  filteredData.forEach(caseItem => {
     html += `
       <div class="emergency-card">
         <div class="em-header">
