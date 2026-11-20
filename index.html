@@ -211,7 +211,7 @@
       <div class="logos"><div class="logo-slot" id="hospitalLogo"><span class="fallback">لوجو<br>المستشفى</span></div></div>
       <div class="titles">
         <h1>مستشفى قليوب التخصصي</h1>
-        <p id="headerDesc">اختر اليوم والقسم لعرض الأطباء المتاحين</p>
+        <p id="headerDesc">قسم الطوارئ</p>
       </div>
       <div class="logos"><div class="logo-slot" id="amanaLogo"><span class="fallback">لوجو<br>الأمانة</span></div></div>
     </div>
@@ -226,7 +226,7 @@
   <!-- التبويبات -->
   <div class="tabs-container">
     <button class="tab-btn active" id="tabDoctors" onclick="switchTab('doctors')">👨‍⚕️ دليل الأطباء</button>
-    <button class="tab-btn" id="tabEmergency" onclick="switchTab('emergency')">🚑 تنسيق الطوارئ</button>
+    <button class="tab-btn" id="tabEmergency" onclick="switchTab('emergency')">🚑 حالات التنسيق</button>
   </div>
 
   <!-- قسم الأطباء -->
@@ -259,7 +259,7 @@
       <h2 style="font-size:1.1rem; color:var(--primary-dark);">🚑 حالات التنسيق الحالية</h2>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; width:100%; max-width:400px;">
         <select id="careFilter" style="flex:1; min-width:150px; padding:10px 14px; border-radius:10px; font-size:0.9rem;" onchange="renderEmergency()">
-          <option value="الكل">الكل (جميع أنواع الرعاية)</option>
+          <option value="الكل">الكل</option>
         </select>
         <button class="btn btn-ghost" style="flex:0; min-width:100px; padding:10px 14px; font-size:0.9rem;" onclick="loadEmergencyData()">🔄 تحديث</button>
       </div>
@@ -510,7 +510,7 @@ function switchTab(tab) {
   } else {
     document.getElementById('doctorsSection').style.display = 'none';
     document.getElementById('emergencySection').style.display = 'block';
-    document.getElementById('headerDesc').textContent = "متابعة حالات التنسيق في قسم الطوارئ";
+    document.getElementById('headerDesc').textContent = "قسم الطوارئ";
     loadEmergencyData(false);
   }
 }
